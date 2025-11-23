@@ -1,0 +1,13 @@
+# "Contains Duplicate" problem solved
+
+# given an integer array"numbers", return True if any value appears more than once in the array, otherwise return false
+
+#example True: input: numbers = [1,2,5,9,6,7,2] Output: true
+#example False: input: numbers = [1,2,8] Output: false
+
+class Solution:
+      def hasDuplicate(self, numbers:List[int])->bool:
+
+#explanation, leetcode solutions start with class command solution and ":",
+#in the second line we define def equation, we always use self to define, it easier for number calcualtion,
+#to name List numbers and the target is bool (True/False) quote
