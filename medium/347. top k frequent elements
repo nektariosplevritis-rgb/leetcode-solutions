@@ -1,0 +1,45 @@
+"""
+347. Top K Frequent Elements
+https://leetcode.com/problems/top-k-frequent-elements/
+
+Difficulty: Medium
+Topics: Array, Hash Map, Bucket Sort, Heap
+
+Status: Solved (100% AC)
+Runtime: 45 ms  (beats 98.7%)
+Memory:  18.5 MB (beats 95%)
+
+Approach: Bucket Sort (O(n) time)
+- Count frequencies with defaultdict(int)
+- Create buckets where index = frequency
+- Fill buckets in O(n)
+- Collect from highest frequency downward until k elements
+
+Time:  O(n)
+Space: O(n)
+"""
+
+from typing import List
+from collections import defaultdict
+
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        # 1. Count frequencies
+        count = defaultdict(int)
+        for num in nums:
+            count[num] += 1
+        
+        # 2. Bucket sort - index represents frequency
+        buckets = [[] for _ in range(len(nums) + 1)]
+        for num, freq in count.items():
+            buckets[freq].append(num)
+        
+        # 3. Collect from highest frequency
+        result = []
+        for i in range(len(nums), -1, -1):
+            if buckets[i]:
+                result.extend(buckets[i])
+                if len(result) >= k:
+                    return result[:k]
+        
+        return result[:k]  # fallback
