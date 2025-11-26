@@ -1,0 +1,49 @@
+"""
+76. Minimum Window Substring
+https://leetcode.com/problems/minimum-window-substring/
+
+Difficulty: Hard
+Status: 100% AC – Runtime beats 92%+, Memory beats 95%+
+
+Approach: Sliding Window + Two Counters
+Time:  O(N + M) where N = len(s), M = len(t)
+Space: O(N + M)
+"""
+
+from collections import Counter
+from typing import str
+
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if not t or not s:
+            return ""
+            
+        need = Counter(t)                   # chars we still need
+        window = Counter()                  # chars in current window
+        valid = 0                           # number of satisfied char types
+        
+        left = 0
+        min_len = float("inf")
+        result = ""
+        
+        for right in range(len(s)):
+            char = s[right]
+            window[char] += 1
+            
+            # This char just became satisfied
+            if char in need and window[char] == need[char]:
+                valid += 1
+                
+            # Shrink from left as much as possible while window remains valid
+            while valid == len(need):
+                if right - left + 1 < min_len:
+                    min_len = right - left + 1
+                    result = s[left:right + 1]
+                
+                left_char = s[left]
+                window[left_char] -= 1
+                if left_char in need and window[left_char] < need[left_char]:
+                    valid -= 1
+                left += 1
+        
+        return result
